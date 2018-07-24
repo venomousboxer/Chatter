@@ -1,4 +1,4 @@
-package com.codingblocks.chatter;
+package com.codingblocks.chatter.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,6 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.codingblocks.chatter.NoNetworkActivity;
+import com.codingblocks.chatter.R;
+import com.codingblocks.chatter.models.RoomsDao;
+import com.codingblocks.chatter.RoomsDatabase;
+import com.codingblocks.chatter.db.RoomsTable;
+import com.codingblocks.chatter.SplashActivity;
+import com.codingblocks.chatter.adapters.RoomsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +59,7 @@ public class RoomsFragment extends Fragment {
     private OkHttpClient client = new OkHttpClient();
 
     @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -238,11 +246,15 @@ public class RoomsFragment extends Fragment {
                                 }
 
                                 if (i == 0) {
-                                    Toast.makeText(
-                                            getActivity(),
-                                            "There seems to be no rooms, please try again later",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(
+                                                    getActivity(),
+                                                    "There seems to be no rooms, please try again later",
+                                                    Toast.LENGTH_SHORT
+                                            ).show();
+                                        }
+                                    });
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

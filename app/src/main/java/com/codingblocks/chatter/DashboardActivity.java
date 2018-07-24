@@ -7,11 +7,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.codingblocks.chatter.fragments.RoomsFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,9 +122,10 @@ public class DashboardActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void openRoom(String id) {
+    public void openRoom(String id, String roomName) {
         Bundle bundle = new Bundle();
         bundle.putString("RoomId", id);
+        bundle.putString("RoomName", roomName);
         Intent roomIntent = new Intent(DashboardActivity.this, RoomActivity.class);
         roomIntent.putExtras(bundle);
         startActivity(roomIntent);
@@ -140,7 +144,7 @@ public class DashboardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preferences:
-                startActivity(new Intent(DashboardActivity.this,SettingsActivity.class));
+                startActivity(new Intent(DashboardActivity.this, SettingsActivity.class));
                 return true;
 
         }
